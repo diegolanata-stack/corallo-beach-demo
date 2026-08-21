@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9c1f32">
+<title>Corallo Beach | Le Castella</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="description" content="Corallo Beach a Le Castella: ombrelloni, lettini e attività sul mare. Prenota online il tuo ombrellone.">
+<style>
+:root{--red:#9c1f32;--red2:#bd3045;--dark:#202326;--cream:#faf8f4;--sand:#ead5b2;--sea:#dff4f6;--muted:#6f777b;--line:#e6e3de;--green:#38a864;--yellow:#e7b83f;--danger:#df6a72;--blue:#3d7fe0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Inter","Helvetica Neue",Arial,sans-serif;color:var(--dark);background:#fff}a{color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;height:72px;padding:0 5.5%;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.93);backdrop-filter:blur(14px);border-bottom:1px solid #00000008}.brand{font-weight:900;letter-spacing:.16em;color:var(--red);font-size:18px}.brand span{font-weight:500;color:#252525}.navlinks{display:flex;gap:26px;align-items:center;font-size:13px;font-weight:750}.navlinks a{text-decoration:none}.pill{background:var(--red);color:#fff;text-decoration:none;padding:12px 18px;border-radius:999px}.menu{display:none;background:none;color:var(--red);padding:4px;font-size:25px}
+.hero{min-height:94vh;padding:145px 7% 75px;display:flex;align-items:end;color:#fff;background:linear-gradient(90deg,rgba(25,28,31,.78),rgba(25,28,31,.18)),url("https://www.italia.it/content/dam/tdh/it/interests/calabria/itinerario-tra-i-luoghi-del-cinema-in-calabria/media/tre.jpg.transform/w_800/h_500/image.jpeg") center/cover}.hero-inner{max-width:780px}.kicker{text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:900}.hero h1{font-size:clamp(46px,7.5vw,88px);font-weight:800;line-height:.92;margin:16px 0 20px;letter-spacing:-.04em}.hero p{font-size:19px;line-height:1.6;max-width:620px;color:#f5f5f5}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{border:0;border-radius:999px;padding:14px 21px;background:var(--red);color:#fff;font-weight:850;cursor:pointer;text-decoration:none}.btn.light{background:#fff;color:var(--red)}section{padding:88px 7%}.sectionhead{max-width:700px;margin-bottom:40px}.sectionhead h2{font-size:clamp(34px,5vw,58px);line-height:1;letter-spacing:-.035em;margin:10px 0 13px}.sectionhead p{font-size:17px;line-height:1.65;color:var(--muted)}.eyebrow{color:var(--red);font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff}.card img{width:100%;height:220px;object-fit:cover}.cardbody{padding:22px}.card h3{margin:0 0 8px;font-size:23px}.card p{color:var(--muted);line-height:1.55}.price{font-weight:900;color:var(--red);font-size:18px}.soft{background:var(--cream)}
+.booking{background:var(--dark);color:#fff}.booking .sectionhead p{color:#c8cdcf}.bookingbox{background:#fff;color:var(--dark);border-radius:26px;padding:26px;max-width:1100px;margin:auto}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-size:11px;font-weight:900;letter-spacing:.04em;margin-bottom:7px}input{width:100%;padding:14px;border:1px solid #d9ddda;border-radius:12px;font:inherit}.booking-actions{display:flex;justify-content:flex-end;margin-top:18px}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#687176;margin:18px 0}.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}.map{background:var(--sea);border-radius:20px;padding:15px}.sea{text-align:center;color:#477b83;font-size:11px;font-weight:900;letter-spacing:.18em;padding:8px}.beach{position:relative;background:var(--sand);border-radius:18px;padding:23px 14px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:800px;margin:auto}.umb{min-height:82px;border:0;border-radius:15px;background:#fff;color:#272b2d;box-shadow:0 4px 12px #6d532522;cursor:pointer;font-weight:900}.umb small{display:block;font-size:10px;font-weight:650;margin-top:5px;color:#6c7375}.umb.full{background:#eaf8ee;color:#1f743d}.umb.partial{background:#fff1c7;color:#755b12}.umb.none{background:#f6d0d3;color:#8b3a42;cursor:not-allowed}.umb.selected{background:var(--red);color:#fff;outline:4px solid #df7b89}.umb.selected small{color:#fff}.walkway{position:absolute;left:8px;top:18px;bottom:18px;width:6px;background:#ad8951;border-radius:9px}.walkway span{position:absolute;top:50%;left:-4px;transform:translate(-45%,-50%) rotate(-90deg);background:var(--sand);padding:4px 7px;font-size:9px;font-weight:900;white-space:nowrap}.hint{margin-top:14px;padding:14px;background:#fff8e6;border:1px solid #eedda1;border-radius:14px;font-size:13px;line-height:1.5}
+.plan{display:grid;gap:8px}.planrow{display:grid;grid-template-columns:160px 1fr;gap:10px;align-items:center}.planrow .day{font-size:12px;font-weight:800}.assignment{padding:12px 14px;border-radius:12px;background:#f7eeee}.assignment b{color:var(--red)}
+.summarygrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.summarybox{padding:17px;border-radius:16px;background:#f7f7f5}.total{font-size:31px;font-weight:950;color:var(--red)}.weather{display:flex;justify-content:space-between;gap:15px;align-items:center;border:1px solid var(--line);border-radius:15px;padding:16px;margin:16px 0}.weather input{width:auto}.paymethods{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.paymethod{border:1px solid #dedede;background:#fff;color:#333;border-radius:14px;padding:15px;cursor:pointer;font-weight:850}.paymethod.active{border:2px solid var(--red);background:#fff4f5;color:var(--red)}.payicon{font-size:22px;display:block;margin-bottom:5px}.walletnote{padding:13px;border-radius:13px;background:#faf2f3;font-size:13px;line-height:1.5}.success{padding:22px;border-radius:18px;background:#edf8f0;border:1px solid #bfe3c8;color:#24643a}.success h2{margin-top:0}
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}.gallery img{width:100%;height:230px;object-fit:cover;border-radius:18px}.gallery img:first-child{grid-row:span 2;height:472px}.contact{display:grid;grid-template-columns:1fr 1fr;gap:18px}.contactbox{padding:26px;border-radius:20px;background:var(--cream);border:1px solid var(--line)}.contactbox h3{margin-top:0}.contactbox a{color:var(--red);font-weight:850}.footer{padding:35px 7%;background:#1c1e20;color:#d9ddde;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer strong{color:#fff}.footer small{color:#aeb6b8}.hidden{display:none!important}
+@media(max-width:760px){.navlinks{display:none}.menu{display:block}.hero{padding:120px 7% 60px;min-height:88vh}.cards,.contact,.summarygrid,.fields{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.gallery img:first-child{grid-column:span 2;height:280px}.gallery img{height:170px}.paymethods{grid-template-columns:1fr 1fr}.grid{gap:6px}.umb{min-height:64px;font-size:12px}.planrow{grid-template-columns:1fr}.nav{height:64px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div class="brand">CORALLO <span>BEACH</span></div>
+<div class="navlinks"><a href="#servizi">Servizi</a><a href="#attivita">Attività</a><a href="#galleria">Galleria</a><a href="#contatti">Dove siamo</a><a class="pill" href="#prenota">Prenota</a></div>
+<button class="menu" aria-label="Menu">☰</button>
+</nav>
+
+<header class="hero">
+<div class="hero-inner">
+<div class="kicker">Le Castella · Calabria</div>
+<h1>Il tuo posto<br>sul mare.</h1>
+<p>Una giornata di relax sulla costa di Le Castella, tra mare, sole e attività. Scegli il tuo ombrellone direttamente dalla piantina e prenota online.</p>
+<div class="hero-actions"><a class="btn" href="#prenota">Prenota ora</a><a class="btn light" href="#servizi">Scopri Corallo Beach</a></div>
+</div>
+</header>
+
+<section id="servizi">
+<div class="sectionhead"><div class="eyebrow">Il lido</div><h2>Comfort, mare e semplicità.</h2><p>Un punto di riferimento per vivere la spiaggia senza pensieri, con servizi essenziali e attività direttamente sul mare.</p></div>
+<div class="cards">
+<article class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1100&q=85"><div class="cardbody"><h3>Ombrelloni & lettini</h3><p>Una postazione composta da 1 ombrellone e 2 lettini. La dotazione non può essere ridotta a un solo lettino.</p></div></article>
+<article class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1100&q=85"><div class="cardbody"><h3>Servizi inclusi</h3><p>Doccia e spogliatoio sono inclusi nella giornata al lido.</p></div></article>
+<article class="card"><img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1100&q=85"><div class="cardbody"><h3>Mare & attività</h3><p>Pedalò, canoe e SUP sono disponibili direttamente al lido e non richiedono prenotazione online.</p></div></article>
+</div>
+</section>
+
+<section id="attivita" class="soft">
+<div class="sectionhead"><div class="eyebrow">Attività</div><h2>Il mare, senza complicazioni.</h2><p>Le attività vengono gestite direttamente al lido. Per i noleggi è sufficiente rivolgersi al nostro staff.</p></div>
+<div class="cards">
+<article class="card"><img src="https://images.trvl-media.com/place/6023415/33d6db17-570f-4c70-b20b-94a078a4d686.jpg"><div class="cardbody"><h3>Pedalò</h3><p>Disponibili con scivolo oppure senza scivolo. La scelta viene effettuata direttamente al lido.</p><div class="price">€20 · 1 ora</div></div></article>
+<article class="card"><img src="https://photos.smugmug.com/Blog/Roadtrip-Italy-2025/Roadtrip-4000-km-Italy/i-cL7wZn9/0/MQ2Rbg5nzWXSsvSNsQdL3w39tMsWXJD2Gm8pk3dSK/L/IMG_5185-L.jpg"><div class="cardbody"><h3>Canoa</h3><p>Disponibile direttamente presso il lido, senza prenotazione online.</p><div class="price">Noleggio · 1 ora</div></div></article>
+<article class="card"><img src="https://www.italia.it/content/dam/tdh/it/interests/calabria/itinerario-tra-i-luoghi-del-cinema-in-calabria/media/tre.jpg.transform/w_800/h_500/image.jpeg"><div class="cardbody"><h3>SUP</h3><p>Disponibile direttamente presso il lido, senza prenotazione online.</p><div class="price">Noleggio · 1 ora</div></div></article>
+</div>
+</section>
+
+<section id="prenota" class="booking">
+<div class="sectionhead"><div class="eyebrow" style="color:#f2a1ad">Prenotazione online</div><h2>Scegli il tuo posto.</h2><p>La piantina funziona come la scelta del posto in aereo: verde per tutto il periodo, giallo se disponibile solo in parte, rosso se non disponibile.</p></div>
+<div class="bookingbox">
+<div class="fields">
+<div><label>ARRIVO</label><input id="from" type="date" value="2026-08-25" min="2026-08-25"></div>
+<div><label>PARTENZA</label><input id="to" type="date" value="2026-08-30" min="2026-08-25"></div>
+</div>
+<div class="booking-actions"><button class="btn" id="availability">Vedi disponibilità</button></div>
+</div>
+<div id="mapSection" class="bookingbox hidden" style="margin-top:18px">
+<h2>Scegli l'ombrellone</h2><p id="period" class="muted"></p>
+<div class="legend"><span><i style="background:var(--green)"></i>Libero tutto il periodo</span><span><i style="background:var(--yellow)"></i>Parzialmente disponibile</span><span><i style="background:var(--danger)"></i>Non disponibile</span><span><i style="background:var(--blue)"></i>Selezionato</span></div>
+<div class="map"><div class="sea">🌊 MARE</div><div class="beach"><div class="walkway"><span>PASSERELLA</span></div><div id="grid" class="grid"></div></div></div>
+<div id="selectionHint" class="hint">Seleziona un ombrellone verde o giallo.</div>
+<div class="hint"><b>Prezzi:</b> 01–05 €30/giorno · 06–30 €25/giorno. 1 ombrellone + 2 lettini. Doccia e spogliatoio inclusi. Gli ombrelloni 01, 06, 11, 16, 21 e 26 sono sul lato passerella.</div>
+<div class="booking-actions"><button class="btn" id="continueMap">Continua</button></div>
+</div>
+
+<div id="planSection" class="bookingbox hidden" style="margin-top:18px">
+<h2>Soluzione ottimizzata</h2><p class="muted">Se l'ombrellone scelto non è libero per tutto il periodo, il sistema cerca automaticamente la soluzione con meno cambi possibile.</p>
+<div id="plan" class="plan"></div>
+<div class="booking-actions"><button class="btn" id="acceptPlan">Conferma soluzione</button></div>
+</div>
+
+<div id="summarySection" class="bookingbox hidden" style="margin-top:18px">
+<h2>Riepilogo</h2>
+<div class="summarygrid"><div class="summarybox"><small>PERIODO</small><br><b id="sumPeriod"></b><br><span id="sumDays"></span></div><div class="summarybox"><small>OMBRELLONI</small><br><b id="sumUmb"></b><br><span>Assegnazione ottimizzata</span></div></div>
+<div class="weather"><span>☔ <b>Protezione Meteo</b><br><small>+€5 per prenotazione. In caso di condizioni meteo che impediscano lo svolgimento della giornata, rimborso secondo le condizioni del servizio.</small></span><input id="weather" type="checkbox"></div>
+<div class="summarygrid"><div class="summarybox"><small>TOTALE</small><div class="total" id="total">€0</div></div><div class="summarybox"><small>INCLUSO</small><br><b>1 ombrellone + 2 lettini</b><br>Doccia + spogliatoio</div></div>
+<div class="booking-actions"><button class="btn" id="goPay">Vai al pagamento</button></div>
+</div>
+
+<div id="paymentSection" class="bookingbox hidden" style="margin-top:18px">
+<h2>Pagamento</h2><p class="muted">Demo: nessun pagamento reale viene effettuato.</p>
+<div class="paymethods">
+<button type="button" class="paymethod active" data-method="card"><span class="payicon">💳</span>Carta</button>
+<button type="button" class="paymethod" data-method="paypal"><span class="payicon">🅿️</span>PayPal</button>
+<button type="button" class="paymethod" data-method="apple"><span class="payicon"></span>Apple Pay</button>
+<button type="button" class="paymethod" data-method="google"><span class="payicon">G</span>Google Pay</button>
+</div>
+<div class="fields"><div><label>NOME E COGNOME</label><input id="name" placeholder="Mario Rossi"></div><div><label>EMAIL</label><input id="email" type="email" placeholder="mario@email.it"></div><div><label>TELEFONO</label><input id="phone" placeholder="+39 ..."></div><div id="cardBox"><label>CARTA DEMO</label><input value="4242 4242 4242 4242" readonly></div></div>
+<div id="walletNote" class="walletnote hidden">Premendo “Paga ora” simuleremo l'apertura del wallet selezionato e la conferma.</div>
+<div class="booking-actions"><button class="btn" id="pay">Paga ora</button></div>
+</div>
+
+<div id="successSection" class="bookingbox hidden" style="margin-top:18px"></div>
+</section>
+
+<section id="galleria">
+<div class="sectionhead"><div class="eyebrow">Le Castella</div><h2>Il mare di casa nostra.</h2><p>Una selezione fotografica provvisoria dedicata a Le Castella e al suo paesaggio.</p><p style="font-size:11px;color:var(--muted);margin-top:-24px">Immagini dimostrative da sostituire con fotografie del Corallo Beach.</p></div>
+<div class="gallery">
+<img src="https://www.italia.it/content/dam/tdh/it/interests/calabria/itinerario-tra-i-luoghi-del-cinema-in-calabria/media/tre.jpg.transform/w_800/h_500/image.jpeg" alt="Le Castella e la fortezza sul mare">
+<img src="https://images.trvl-media.com/place/6023415/33d6db17-570f-4c70-b20b-94a078a4d686.jpg" alt="Le Castella, mare e castello">
+<img src="https://photos.smugmug.com/Blog/Roadtrip-Italy-2025/Roadtrip-4000-km-Italy/i-cL7wZn9/0/MQ2Rbg5nzWXSsvSNsQdL3w39tMsWXJD2Gm8pk3dSK/L/IMG_5185-L.jpg" alt="Le Castella costa">
+<img src="https://i.wakacje.pl/no-index/hotel/capo-rizzuto-villaggio-plaza-1757596961-570-428.jpg" alt="Spiaggia e mare di Capo Rizzuto">
+<img src="https://media.vrbo.com/lodging/84000000/83250000/83243000/83242916/46125702.jpg?impolicy=resizecrop&ra=fill&rh=575&rw=575" alt="Baia di Le Castella">
+</div>
+</section>
+
+<section id="contatti" class="soft">
+<div class="sectionhead"><div class="eyebrow">Vieni a trovarci</div><h2>Le Castella, Calabria.</h2><p>Per informazioni puoi contattarci direttamente. Per gli sport acquatici, vieni al lido e verifica la disponibilità in sede.</p></div>
+<div class="contact"><div class="contactbox"><h3>📞 Prenotazioni</h3><p>Telefono / WhatsApp</p><a href="tel:+390962795060">0962 795060</a></div><div class="contactbox"><h3>📍 Dove siamo</h3><p>Le Castella · Isola di Capo Rizzuto (KR)</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Le+Castella+Calabria">Apri su Google Maps →</a></div></div>
+</section>
+
+<footer class="footer"><div><strong>CORALLO BEACH</strong><br><small>Le Castella · Calabria</small></div><div style="display:flex;align-items:center;gap:18px"><a href="corallo-staff.html" style="color:#fff;text-decoration:none;font-weight:800;font-size:12px">Area Staff →</a><small>© 2026 Corallo Beach · Demo</small></div></footer>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  const now=new Date();
+  const today=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+  const from=document.getElementById("from"),to=document.getElementById("to");
+  if(from){from.value=today;from.min=today}
+  if(to){to.value=today;to.min=today}
+});
+</script>
+<script>
+(function(){
+const busy={"2026-08-25":[3,4,5,10,11,17,22],"2026-08-26":[3,4,5,10,11,17,22],"2026-08-27":[3,4,5,10,11,12,17,18,22],"2026-08-28":[1,2,3,4,5,9,10,11,16,17,18,24],"2026-08-29":[1,2,5,6,7,8,11,14,15,21,25],"2026-08-30":[2,4,6,8,9,12,13,16,20,21,26,30]};
+let selected=null,plan=[],total=0,paymentMethod="card";const $=id=>document.getElementById(id);
+const fmt=s=>new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(s+"T12:00:00"));
+function dates(){const a=[],d=new Date($("from").value+"T12:00:00"),e=new Date($("to").value+"T12:00:00");while(d<=e){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}return a}
+function free(n,d){return !(busy[d]||[]).includes(n)}
+function coverage(n){return dates().filter(d=>free(n,d)).length}
+function price(n){return n<=5?30:25}
+function show(id){$(id).classList.remove("hidden")}function hide(id){$(id).classList.add("hidden")}
+function renderMap(){const grid=$("grid"),ds=dates();grid.innerHTML="";for(let n=1;n<=30;n++){const c=coverage(n),b=document.createElement("button");b.type="button";b.className="umb "+(c===0?"none":c===ds.length?"full":"partial")+(selected===n?" selected":"");b.innerHTML=String(n).padStart(2,"0")+"<small>"+(c===ds.length?"Libero tutto il periodo":c+"/"+ds.length+" giorni")+"</small>";if(c>0)b.onclick=()=>{selected=n;renderMap();$("selectionHint").innerHTML=c===ds.length?"<b>#"+String(n).padStart(2,"0")+"</b> è libero per tutto il periodo.":"<b>#"+String(n).padStart(2,"0")+"</b> è disponibile per <b>"+c+"/"+ds.length+" giorni</b>. Continua per trovare automaticamente la soluzione migliore.";};grid.appendChild(b)}}
+function buildPlan(preferred){const ds=dates(),r=[];let current=preferred;for(const d of ds){if(current&&free(current,d)){r.push({date:d,umb:current});continue}let cand=[];for(let n=1;n<=30;n++)if(free(n,d))cand.push(n);if(!cand.length)return null;if(current)cand.sort((a,b)=>Math.abs(a-current)-Math.abs(b-current)||a-b);else cand.sort((a,b)=>a-b);current=cand[0];r.push({date:d,umb:current})}return r}
+function groups(){const g=[];for(const x of plan){const l=g[g.length-1];if(l&&l.umb===x.umb)l.end=x.date;else g.push({umb:x.umb,start:x.date,end:x.date})}return g}
+function renderPlan(){const el=$("plan");el.innerHTML="";const g=groups();g.forEach((x,i)=>{const d=document.createElement("div");d.className="planrow";d.innerHTML="<div class='day'>"+(x.start===x.end?fmt(x.start):fmt(x.start)+" → "+fmt(x.end))+"</div><div class='assignment'><b>Ombrellone #"+String(x.umb).padStart(2,"0")+"</b> · €"+price(x.umb)+"/giorno"+(i?" · cambio necessario":"")+"</div>";el.appendChild(d)});const n=document.createElement("div");n.className="hint";n.innerHTML=g.length===1?"<b>Perfetto:</b> puoi mantenere lo stesso ombrellone per tutto il soggiorno.":"<b>Soluzione ottimizzata:</b> "+(g.length-1)+" cambio/i. Il sistema minimizza gli spostamenti.";el.appendChild(n)}
+function calc(){total=plan.reduce((s,x)=>s+price(x.umb),0)+($("weather").checked?5:0);$("total").textContent="€"+total}
+$("from").onchange=()=>{if($("to").value<$("from").value)$("to").value=$("from").value;$("to").min=$("from").value};
+$("availability").onclick=()=>{if(!$("from").value||!$("to").value){alert("Scegli le date.");return}if($("to").value<$("from").value){alert("La partenza non può precedere l'arrivo.");return}selected=null;plan=[];const ds=dates();$("period").textContent=fmt(ds[0])+" → "+fmt(ds[ds.length-1])+" · "+ds.length+" "+(ds.length===1?"giorno":"giorni");renderMap();show("mapSection");hide("planSection");hide("summarySection");hide("paymentSection");hide("successSection");$("mapSection").scrollIntoView({behavior:"smooth"})};
+$("continueMap").onclick=()=>{if(!selected){alert("Seleziona un ombrellone.");return}plan=buildPlan(selected);if(!plan){alert("Non c'è disponibilità sufficiente per coprire tutte le giornate.");return}renderPlan();show("planSection");hide("summarySection");$("planSection").scrollIntoView({behavior:"smooth"})};
+$("acceptPlan").onclick=()=>{const g=groups();$("sumPeriod").textContent=fmt($("from").value)+" → "+fmt($("to").value);$("sumDays").textContent=dates().length+" giorni";$("sumUmb").textContent=g.map(x=>"#"+String(x.umb).padStart(2,"0")).join(" · ");$("weather").checked=false;calc();show("summarySection");hide("paymentSection");$("summarySection").scrollIntoView({behavior:"smooth"})};
+$("weather").onchange=calc;
+$("goPay").onclick=()=>{show("paymentSection");$("paymentSection").scrollIntoView({behavior:"smooth"})};
+document.querySelectorAll(".paymethod").forEach(b=>b.onclick=()=>{paymentMethod=b.dataset.method;document.querySelectorAll(".paymethod").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("cardBox").classList.toggle("hidden",paymentMethod!=="card");$("walletNote").classList.toggle("hidden",paymentMethod==="card")});
+$("pay").onclick=()=>{if(!$("name").value.trim()||!$("email").value.trim()){alert("Inserisci nome ed email.");return}const names={card:"Carta",paypal:"PayPal",apple:"Apple Pay",google:"Google Pay"},code="CB-"+Math.random().toString(36).slice(2,8).toUpperCase();const alloc=groups().map(x=>(x.start===x.end?fmt(x.start):fmt(x.start)+" → "+fmt(x.end))+" · #"+String(x.umb).padStart(2,"0")).join("<br>");$("successSection").innerHTML="<div class='success'><h2>🎉 Prenotazione confermata</h2><p>"+$("name").value+", la tua prenotazione demo è stata registrata.</p><p>"+alloc+"</p><p>Codice: <b>"+code+"</b><br>Totale: <b>€"+total+"</b><br>Pagamento: <b>"+names[paymentMethod]+"</b></p><small>Nessun pagamento reale è stato effettuato.</small></div>";show("successSection");hide("paymentSection");$("successSection").scrollIntoView({behavior:"smooth"})};
+})();
+</script>
+</body>
+</html>
