@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corallo Beach — Prenotazione demo v2</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f8f7;color:#12343d}
+header{background:#063b4b;color:#fff;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}.logo{font-weight:900;letter-spacing:.08em}.logo b{color:#54dccd}.demo{font-size:11px;border:1px solid #ffffff44;border-radius:99px;padding:8px 12px}
+main{max-width:1100px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:0 8px 30px #12343d12}
+h1{font-size:clamp(32px,6vw,58px);line-height:1;margin:0 0 10px}h2{margin-top:0}.muted{color:#687b80;line-height:1.55}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-size:12px;font-weight:900;margin-bottom:7px}input{width:100%;padding:14px;border:1px solid #d6e1df;border-radius:12px;font:inherit}
+button{border:0;border-radius:999px;padding:14px 20px;font-weight:900;cursor:pointer;background:#18b6a4;color:#fff}.secondary{background:#e9f2f0;color:#063b4b}.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+.hidden{display:none!important}.legend{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0;font-size:13px}.legend span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}.available:before{background:#48b96b}.partial:before{background:#e7b63e}.occupied:before{background:#e46c72}.chosen:before{background:#3984e8}
+.map{background:#dff4f7;border-radius:20px;padding:16px}.sea{text-align:center;font-size:12px;font-weight:900;letter-spacing:.15em;color:#397b87;padding:8px}.beach{position:relative;background:#efd6a8;border-radius:18px;padding:22px 12px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:760px;margin:auto}.umbrella{min-height:78px;border-radius:15px;background:#fff;color:#12343d;box-shadow:0 4px 10px #6d532522;position:relative}.umbrella small{display:block;font-size:10px;color:#6a7779;margin-top:4px}.umbrella.occupied{background:#efb7ba;color:#85383e;cursor:not-allowed}.umbrella.partial{background:#f8e1a3;color:#745614}.umbrella.chosen{background:#5b9bf0;color:#fff;outline:4px solid #286bc6}.umbrella.chosen small{color:#fff}.walkway{position:absolute;left:8px;top:18px;bottom:18px;width:6px;background:#b79259;border-radius:8px}.walkway span{position:absolute;top:50%;left:-3px;transform:translate(-45%,-50%) rotate(-90deg);background:#efd6a8;padding:4px 8px;font-size:9px;font-weight:900}
+.notice{background:#eef8f6;border-radius:14px;padding:14px;font-size:13px;line-height:1.5;margin-top:14px}.hint{background:#fff8df;border:1px solid #efd989;border-radius:14px;padding:14px;font-size:13px;line-height:1.5;margin-top:14px}
+.plan{display:grid;gap:9px}.dayrow{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center}.day{font-weight:800;font-size:13px}.assigned{padding:11px 13px;background:#eef8f6;border-radius:12px}.assigned b{color:#063b4b}.change{background:#fff8df;color:#705510}.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px}.summary div{background:#f5f9f8;border-radius:16px;padding:16px}.total{font-size:30px;font-weight:950;color:#063b4b}.check{display:flex;align-items:center;justify-content:space-between;border:1px solid #dbe5e3;border-radius:14px;padding:15px;margin:14px 0}.check input{width:auto}
+.success{background:#eaf8ef;border:1px solid #b9e7c8;color:#176b39;padding:22px;border-radius:18px}
+@media(max-width:650px){.fields,.summary{grid-template-columns:1fr}.grid{gap:6px}.umbrella{min-height:65px;font-size:12px}.dayrow{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header><div class="logo">CORALLO <b>BEACH</b></div><div class="demo">DEMO v2</div></header>
+<main>
+<section class="card">
+<h1>Prenota il tuo ombrellone.</h1>
+<p class="muted">Scegli il periodo. La piantina non considera automaticamente “rosso” un ombrellone che è occupato solo per una parte del soggiorno: lo segnala in <b>giallo</b> e cerca una soluzione con il minor numero possibile di cambi.</p>
+<div class="fields">
+<div><label>ARRIVO</label><input id="from" type="date" value="2026-08-25" min="2026-08-25"></div>
+<div><label>PARTENZA</label><input id="to" type="date" value="2026-08-30" min="2026-08-25"></div>
+</div>
+<div class="actions"><button id="availability">Vedi disponibilità</button></div>
+</section>
+
+<section id="mapSection" class="card hidden">
+<h2>Scegli il tuo ombrellone</h2><p id="period" class="muted"></p>
+<div class="legend"><span class="available">Libero per tutto il periodo</span><span class="partial">Parzialmente disponibile</span><span class="occupied">Non disponibile</span><span class="chosen">Selezionato</span></div>
+<div class="map"><div class="sea">🌊 MARE</div><div class="beach"><div class="walkway"><span>PASSERELLA</span></div><div id="grid" class="grid"></div></div></div>
+<div id="selectionHint" class="hint">Clicca un ombrellone verde per usarlo per tutto il periodo, oppure un ombrellone giallo per vedere come il sistema può distribuire automaticamente i giorni.</div>
+<div class="notice"><b>01–05:</b> €30/giorno. <b>06–30:</b> €25/giorno. Ogni prenotazione comprende 1 ombrellone + 2 lettini. Doccia e spogliatoio inclusi. Pedalò, canoe e SUP non sono prenotabili online.</div>
+<div class="actions"><button class="secondary" id="backDate">Modifica date</button><button id="continueMap">Continua</button></div>
+</section>
+
+<section id="planSection" class="card hidden">
+<h2>La soluzione per il tuo soggiorno</h2>
+<p class="muted">Il sistema prova prima a mantenere lo stesso ombrellone e cambia posto solo quando è necessario. In caso di più soluzioni, preferisce quella con meno cambi.</p>
+<div id="plan" class="plan"></div>
+<div class="actions"><button class="secondary" id="backPlan">Cambia ombrellone</button><button id="acceptPlan">Conferma soluzione</button></div>
+</section>
+
+<section id="summarySection" class="card hidden">
+<h2>Riepilogo</h2>
+<div class="summary"><div><small>PERIODO</small><br><b id="sumPeriod"></b><br><span id="sumDays"></span></div><div><small>SOLUZIONE</small><br><b id="sumUmb"></b><br><span>Ombrellone/i assegnati automaticamente</span></div></div>
+<label class="check"><span>☔ <b>Protezione Meteo</b><br><small>+€5 per prenotazione</small></span><input id="weather" type="checkbox"></label>
+<div class="summary"><div><small>TOTALE</small><div id="total" class="total">€0</div></div><div><small>DOTAZIONE</small><br><b>1 ombrellone + 2 lettini</b><br>Doccia + spogliatoio inclusi</div></div>
+<div class="actions"><button class="secondary" id="backSummaryPlan">Modifica soluzione</button><button id="goPay">Vai al pagamento</button></div>
+</section>
+
+<section id="paymentSection" class="card hidden">
+<h2>Pagamento demo</h2><p class="muted">Nessun pagamento reale viene effettuato.</p>
+<div class="fields">
+<div><label>NOME E COGNOME</label><input id="name" placeholder="Mario Rossi"></div>
+<div><label>EMAIL</label><input id="email" type="email" placeholder="mario@email.it"></div>
+<div><label>TELEFONO</label><input id="phone" placeholder="+39 ..."></div>
+<div><label>CARTA DEMO</label><input value="4242 4242 4242 4242" readonly></div>
+</div>
+<div class="actions"><button class="secondary" id="backPayment">Indietro</button><button id="pay">Paga ora</button></div>
+</section>
+
+<section id="successSection" class="card hidden"></section>
+</main>
+
+<script>
+(function(){
+const busy={
+"2026-08-25":[3,4,5,10,11,17,22],
+"2026-08-26":[3,4,5,10,11,17,22],
+"2026-08-27":[3,4,5,10,11,12,17,18,22],
+"2026-08-28":[1,2,3,4,5,9,10,11,16,17,18,24],
+"2026-08-29":[1,2,5,6,7,8,11,14,15,21,25],
+"2026-08-30":[2,4,6,8,9,12,13,16,20,21,26,30]
+};
+let selected=null, plan=[], days=1, total=0;
+const $=id=>document.getElementById(id);
+const fmt=s=>new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(s+"T12:00:00"));
+function dates(){
+const a=[],d=new Date($("from").value+"T12:00:00"),e=new Date($("to").value+"T12:00:00");
+while(d<=e){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}return a;
+}
+function freeOn(n,d){return !(busy[d]||[]).includes(n)}
+function coverage(n){const ds=dates();return ds.filter(d=>freeOn(n,d)).length}
+function show(id){$(id).classList.remove("hidden")}
+function hide(id){$(id).classList.add("hidden")}
+function price(n){return n<=5?30:25}
+
+function renderMap(){
+const grid=$("grid");grid.innerHTML="";
+const ds=dates();
+for(let n=1;n<=30;n++){
+const cov=coverage(n), b=document.createElement("button");
+b.type="button";
+b.className="umbrella "+(cov===0?"occupied":cov===ds.length?"available":"partial")+(selected===n?" chosen":"");
+b.innerHTML=String(n).padStart(2,"0")+"<small>"+(cov===ds.length?"Libero":" "+cov+"/"+ds.length+" giorni")+"</small>";
+if(cov>0)b.addEventListener("click",()=>selectUmbrella(n));
+grid.appendChild(b);
+}
+}
+function selectUmbrella(n){
+selected=n;
+renderMap();
+const cov=coverage(n), ds=dates();
+$("selectionHint").innerHTML=cov===ds.length
+?"<b>#"+String(n).padStart(2,"0")+"</b> è libero per tutto il periodo. Puoi mantenerlo per tutti i giorni."
+:"<b>#"+String(n).padStart(2,"0")+"</b> è disponibile per <b>"+cov+"/"+ds.length+" giorni</b>. Premi <b>Continua</b>: il sistema cercherà automaticamente la soluzione con meno cambi.";
+}
+function buildPlan(preferred){
+const ds=dates(), result=[];
+let current=preferred;
+for(let i=0;i<ds.length;i++){
+const d=ds[i];
+if(current && freeOn(current,d)){result.push({date:d,umb:current});continue}
+let candidates=[];
+for(let n=1;n<=30;n++)if(freeOn(n,d))candidates.push(n);
+if(!candidates.length)return null;
+// Prefer same row/area when possible, then lower price, then number.
+if(current)candidates.sort((a,b)=>{
+const sameA=Math.abs(a-current),sameB=Math.abs(b-current);
+if(sameA!==sameB)return sameA-sameB;
+return a-b;
+});
+else candidates.sort((a,b)=>a-b);
+current=candidates[0];
+result.push({date:d,umb:current});
+}
+return result;
+}
+function compressPlan(p){
+const groups=[];
+for(const x of p){
+const last=groups[groups.length-1];
+if(last && last.umb===x.umb)last.end=x.date;
+else groups.push({umb:x.umb,start:x.date,end:x.date});
+}
+return groups;
+}
+function renderPlan(){
+const groups=compressPlan(plan), el=$("plan");el.innerHTML="";
+let changes=0;
+groups.forEach((g,i)=>{
+if(i>0)changes++;
+const div=document.createElement("div");div.className="dayrow";
+div.innerHTML="<div class='day'>"+(fmt(g.start)===fmt(g.end)?fmt(g.start):fmt(g.start)+" → "+fmt(g.end))+"</div><div class='assigned "+(i?"change":"")+"'><b>Ombrellone #"+String(g.umb).padStart(2,"0")+"</b> · €"+price(g.umb)+"/giorno"+(i?" · cambio necessario":"")+"</div>";
+el.appendChild(div);
+});
+const note=document.createElement("div");note.className="notice";
+note.innerHTML=changes===0?"<b>Perfetto:</b> puoi mantenere lo stesso ombrellone per tutto il periodo.":"<b>Soluzione ottimizzata:</b> "+changes+" cambio/i di ombrellone. Il sistema ha cercato di ridurre al minimo gli spostamenti.";
+el.appendChild(note);
+}
+function calcTotal(){total=plan.reduce((s,x)=>s+price(x.umb),0)+($("weather").checked?5:0);$("total").textContent="€"+total}
+
+$("from").addEventListener("change",()=>{if($("to").value<$("from").value)$("to").value=$("from").value;$("to").min=$("from").value});
+$("availability").addEventListener("click",()=>{
+if(!$("from").value||!$("to").value){alert("Scegli le date.");return}
+if($("to").value<$("from").value){alert("La partenza non può essere precedente all'arrivo.");return}
+days=dates().length;selected=null;plan=[];
+$("period").textContent=fmt($("from").value)+" → "+fmt($("to").value)+" · "+days+" "+(days===1?"giorno":"giorni");
+renderMap();show("mapSection");hide("planSection");hide("summarySection");hide("paymentSection");hide("successSection");
+$("mapSection").scrollIntoView({behavior:"smooth"});
+});
+$("backDate").addEventListener("click",()=>{$("mapSection").classList.add("hidden");window.scrollTo({top:0,behavior:"smooth"})});
+$("continueMap").addEventListener("click",()=>{
+if(!selected){alert("Seleziona un ombrellone verde o giallo.");return}
+plan=buildPlan(selected);
+if(!plan){alert("Non c'è una soluzione disponibile per tutte le giornate.");return}
+renderPlan();show("planSection");hide("summarySection");$("planSection").scrollIntoView({behavior:"smooth"});
+});
+$("backPlan").addEventListener("click",()=>{$("planSection").classList.add("hidden");$("mapSection").scrollIntoView({behavior:"smooth"})});
+$("acceptPlan").addEventListener("click",()=>{
+const groups=compressPlan(plan);
+$("sumPeriod").textContent=fmt($("from").value)+" → "+fmt($("to").value);
+$("sumDays").textContent=days+" "+(days===1?"giorno":"giorni");
+$("sumUmb").textContent=groups.map(g=>"#"+String(g.umb).padStart(2,"0")).join(" · ");
+$("weather").checked=false;calcTotal();show("summarySection");hide("paymentSection");$("summarySection").scrollIntoView({behavior:"smooth"});
+});
+$("weather").addEventListener("change",calcTotal);
+$("backSummaryPlan").addEventListener("click",()=>{$("summarySection").classList.add("hidden");$("planSection").scrollIntoView({behavior:"smooth"})});
+$("goPay").addEventListener("click",()=>{show("paymentSection");$("paymentSection").scrollIntoView({behavior:"smooth"})});
+$("backPayment").addEventListener("click",()=>{$("paymentSection").classList.add("hidden");$("summarySection").scrollIntoView({behavior:"smooth"})});
+$("pay").addEventListener("click",()=>{
+if(!$("name").value.trim()||!$("email").value.trim()){alert("Inserisci nome ed email.");return}
+const code="CB-"+Math.random().toString(36).slice(2,8).toUpperCase();
+const groups=compressPlan(plan);
+const allocation=groups.map(g=>fmt(g.start)===fmt(g.end)?fmt(g.start)+" → #"+String(g.umb).padStart(2,"0"):fmt(g.start)+" → "+fmt(g.end)+" → #"+String(g.umb).padStart(2,"0")).join("<br>");
+$("successSection").innerHTML="<div class='success'><h2>🎉 Prenotazione confermata!</h2><p>"+$("name").value+", questa è la soluzione assegnata:</p><p>"+allocation+"</p><p>Codice: <b>"+code+"</b><br>Totale demo: <b>€"+total+"</b></p><small>Nessun pagamento reale è stato effettuato.</small></div><div class='actions'><button id='restart'>Nuova prenotazione</button></div>";
+show("successSection");hide("paymentSection");$("successSection").scrollIntoView({behavior:"smooth"});
+$("restart").addEventListener("click",()=>location.reload());
+});
+})();
+</script>
+</body>
+</html>
