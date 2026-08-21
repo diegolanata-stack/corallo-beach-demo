@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corallo Beach — Demo prenotazione</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f8f7;color:#12343d}
+header{background:#063b4b;color:#fff;padding:20px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-weight:900;letter-spacing:.08em}.logo b{color:#54dccd}.demo{font-size:11px;border:1px solid #ffffff44;border-radius:99px;padding:8px 12px}
+main{max-width:1050px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:0 8px 30px #12343d12}
+h1{font-size:clamp(32px,6vw,58px);line-height:1;margin:0 0 10px}.muted{color:#687b80;line-height:1.55}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}label{display:block;font-size:12px;font-weight:900;margin-bottom:7px}input{width:100%;padding:14px;border:1px solid #d6e1df;border-radius:12px;font:inherit}
+button{border:0;border-radius:999px;padding:14px 20px;font-weight:900;cursor:pointer;background:#18b6a4;color:#fff}.secondary{background:#e9f2f0;color:#063b4b}.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+.hidden{display:none!important}.legend{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0;font-size:13px}.legend span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}.available:before{background:#48b96b}.occupied:before{background:#e46c72}.chosen:before{background:#3984e8}
+.map{background:#dff4f7;border-radius:20px;padding:16px}.sea{text-align:center;font-size:12px;font-weight:900;letter-spacing:.15em;color:#397b87;padding:8px}.beach{position:relative;background:#efd6a8;border-radius:18px;padding:22px 12px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:760px;margin:auto}.umbrella{min-height:72px;border-radius:15px;background:#fff;color:#12343d;box-shadow:0 4px 10px #6d532522;position:relative}.umbrella small{display:block;font-size:10px;color:#6a7779;margin-top:4px}.umbrella.occupied{background:#efb7ba;color:#85383e;cursor:not-allowed}.umbrella.chosen{background:#5b9bf0;color:#fff;outline:4px solid #286bc6}.umbrella.chosen small{color:#fff}.walkway{position:absolute;left:8px;top:18px;bottom:18px;width:6px;background:#b79259;border-radius:8px}.walkway span{position:absolute;top:50%;left:-3px;transform:translate(-45%,-50%) rotate(-90deg);background:#efd6a8;padding:4px 8px;font-size:9px;font-weight:900}
+.notice{background:#eef8f6;border-radius:14px;padding:14px;font-size:13px;line-height:1.5;margin-top:14px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px}.summary div{background:#f5f9f8;border-radius:16px;padding:16px}.total{font-size:30px;font-weight:950;color:#063b4b}.check{display:flex;align-items:center;justify-content:space-between;border:1px solid #dbe5e3;border-radius:14px;padding:15px;margin:14px 0}.check input{width:auto}
+.success{background:#eaf8ef;border:1px solid #b9e7c8;color:#176b39;padding:22px;border-radius:18px}
+@media(max-width:650px){.fields,.summary{grid-template-columns:1fr}.grid{gap:6px}.umbrella{min-height:62px;font-size:12px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header><div class="logo">CORALLO <b>BEACH</b></div><div class="demo">DEMO</div></header>
+<main>
+<section class="card">
+<h1>Prenota il tuo ombrellone.</h1>
+<p class="muted">Scegli il periodo e poi seleziona dalla piantina il tuo posto. Questa demo simula disponibilità e pagamento.</p>
+<div class="fields">
+<div><label>ARRIVO</label><input id="from" type="date" value="2026-08-25" min="2026-08-25"></div>
+<div><label>PARTENZA</label><input id="to" type="date" value="2026-08-25" min="2026-08-25"></div>
+</div>
+<div class="actions"><button id="availability">Vedi disponibilità</button></div>
+</section>
+
+<section id="mapSection" class="card hidden">
+<h2>Scegli l'ombrellone</h2><p id="period" class="muted"></p>
+<div class="legend"><span class="available">Disponibile</span><span class="occupied">Occupato</span><span class="chosen">Selezionato</span></div>
+<div class="map"><div class="sea">🌊 MARE</div><div class="beach"><div class="walkway"><span>PASSERELLA</span></div><div id="grid" class="grid"></div></div></div>
+<div class="notice"><b>01–05:</b> €30/giorno. <b>06–30:</b> €25/giorno. Ogni prenotazione comprende 1 ombrellone + 2 lettini. Doccia e spogliatoio inclusi. Pedalò, canoe e SUP non sono prenotabili online.</div>
+<div class="actions"><button class="secondary" id="backDate">Modifica date</button><button id="continueMap">Continua</button></div>
+</section>
+
+<section id="summarySection" class="card hidden">
+<h2>Riepilogo</h2>
+<div class="summary"><div><small>PERIODO</small><br><b id="sumPeriod"></b><br><span id="sumDays"></span></div><div><small>OMBRELLONE</small><br><b id="sumUmb"></b><br><span id="sumPrice"></span></div></div>
+<label class="check"><span>☔ <b>Protezione Meteo</b><br><small>+€5 per prenotazione</small></span><input id="weather" type="checkbox"></label>
+<div class="summary"><div><small>TOTALE</small><div id="total" class="total">€0</div></div><div><small>DOTAZIONE</small><br><b>1 ombrellone + 2 lettini</b><br>Doccia + spogliatoio inclusi</div></div>
+<div class="actions"><button class="secondary" id="backMap">Cambia ombrellone</button><button id="goPay">Vai al pagamento</button></div>
+</section>
+
+<section id="paymentSection" class="card hidden">
+<h2>Pagamento demo</h2><p class="muted">Nessun pagamento reale viene effettuato.</p>
+<div class="fields">
+<div><label>NOME E COGNOME</label><input id="name" placeholder="Mario Rossi"></div>
+<div><label>EMAIL</label><input id="email" type="email" placeholder="mario@email.it"></div>
+<div><label>TELEFONO</label><input id="phone" placeholder="+39 ..."></div>
+<div><label>CARTA DEMO</label><input value="4242 4242 4242 4242" readonly></div>
+</div>
+<div class="actions"><button class="secondary" id="backSummary">Indietro</button><button id="pay">Paga ora</button></div>
+</section>
+
+<section id="successSection" class="card hidden"></section>
+</main>
+
+<script>
+(function(){
+  const busy={
+    "2026-08-25":[3,4,5,10,11,17,22],
+    "2026-08-26":[3,4,5,10,11,17,22],
+    "2026-08-27":[3,4,5,10,11,12,17,18,22],
+    "2026-08-28":[1,2,3,4,5,9,10,11,16,17,18,24],
+    "2026-08-29":[1,2,5,6,7,8,11,14,15,21,25],
+    "2026-08-30":[2,4,6,8,9,12,13,16,20,21,26,30]
+  };
+  let selected=null, days=1, total=0;
+
+  const $=id=>document.getElementById(id);
+  const fmt=s=>new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(s+"T12:00:00"));
+  function dates(){
+    const a=[], d=new Date($("from").value+"T12:00:00"), end=new Date($("to").value+"T12:00:00");
+    while(d<=end){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}
+    return a;
+  }
+  function free(n){return dates().every(d=>!(busy[d]||[]).includes(n))}
+  function render(){
+    const grid=$("grid");grid.innerHTML="";
+    for(let n=1;n<=30;n++){
+      const b=document.createElement("button");
+      b.type="button";b.className="umbrella "+(free(n)?"":"occupied")+(selected===n&&free(n)?" chosen":"");
+      b.innerHTML=String(n).padStart(2,"0")+"<small>€"+(n<=5?30:25)+"/giorno</small>";
+      if(free(n)) b.addEventListener("click",()=>{selected=n;render()});
+      grid.appendChild(b);
+    }
+  }
+  function show(id){$(id).classList.remove("hidden")}
+  function hide(id){$(id).classList.add("hidden")}
+
+  $("from").addEventListener("change",()=>{if($("to").value<$("from").value)$("to").value=$("from").value;$("to").min=$("from").value});
+  $("availability").addEventListener("click",()=>{
+    if(!$("from").value||!$("to").value){alert("Scegli le date.");return}
+    if($("to").value<$("from").value){alert("La partenza non può essere precedente all'arrivo.");return}
+    days=dates().length;selected=null;
+    $("period").textContent=fmt($("from").value)+" → "+fmt($("to").value)+" · "+days+" "+(days===1?"giorno":"giorni");
+    render();show("mapSection");hide("summarySection");hide("paymentSection");hide("successSection");
+    $("mapSection").scrollIntoView({behavior:"smooth"});
+  });
+  $("backDate").addEventListener("click",()=>{$("mapSection").classList.add("hidden");window.scrollTo({top:0,behavior:"smooth"})});
+  $("continueMap").addEventListener("click",()=>{
+    if(!selected){alert("Seleziona un ombrellone verde.");return}
+    $("sumPeriod").textContent=fmt($("from").value)+" → "+fmt($("to").value);
+    $("sumDays").textContent=days+" "+(days===1?"giorno":"giorni");
+    $("sumUmb").textContent="#"+String(selected).padStart(2,"0");
+    $("sumPrice").textContent=(selected<=5?"€30":"€25")+" / giorno";
+    $("weather").checked=false;updateTotal();show("summarySection");hide("paymentSection");$("summarySection").scrollIntoView({behavior:"smooth"});
+  });
+  function updateTotal(){total=(selected<=5?30:25)*days+($("weather").checked?5:0);$("total").textContent="€"+total}
+  $("weather").addEventListener("change",updateTotal);
+  $("backMap").addEventListener("click",()=>{$("summarySection").classList.add("hidden");$("mapSection").scrollIntoView({behavior:"smooth"})});
+  $("goPay").addEventListener("click",()=>{show("paymentSection");$("paymentSection").scrollIntoView({behavior:"smooth"})});
+  $("backSummary").addEventListener("click",()=>{$("paymentSection").classList.add("hidden");$("summarySection").scrollIntoView({behavior:"smooth"})});
+  $("pay").addEventListener("click",()=>{
+    if(!$("name").value.trim()||!$("email").value.trim()){alert("Inserisci nome ed email.");return}
+    const code="CB-"+Math.random().toString(36).slice(2,8).toUpperCase();
+    $("successSection").innerHTML='<div class="success"><h2>🎉 Prenotazione confermata!</h2><p>'+$("name").value+', hai prenotato l’ombrellone <b>#'+String(selected).padStart(2,"0")+'</b> dal <b>'+fmt($("from").value)+'</b> al <b>'+fmt($("to").value)+'</b>.</p><p>Codice: <b>'+code+'</b><br>Totale demo: <b>€'+total+'</b></p><small>Nessun pagamento reale è stato effettuato.</small></div><div class="actions"><button id="restart">Nuova prenotazione</button></div>';
+    show("successSection");hide("paymentSection");$("successSection").scrollIntoView({behavior:"smooth"});
+    $("restart").addEventListener("click",()=>location.reload());
+  });
+})();
+</script>
+</body>
+</html>
